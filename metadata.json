@@ -1,0 +1,6 @@
+{
+  "name": "NeuroLearn AI",
+  "description": "A fully navigable, visually polished React prototype that lets hackathon organizers experience the complete student + teacher + admin journey.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

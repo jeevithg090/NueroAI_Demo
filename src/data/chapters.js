@@ -1,0 +1,141 @@
+export const chapters = [
+  {
+    id: 'ch4-digestive',
+    title: 'The Human Digestive System',
+    subject: 'Science',
+    class: 'Class 7',
+    board: 'NCERT',
+    estimatedTime: { adhd: '18 min', asd: '22 min', dyslexia: '25 min' },
+    progress: 65,
+    chunks: 6,
+  },
+  {
+    id: 'ch6-fractions',
+    title: 'Fractions and Decimals',
+    subject: 'Mathematics',
+    class: 'Class 7',
+    board: 'NCERT',
+    estimatedTime: { adhd: '12 min', asd: '15 min', dyslexia: '20 min' },
+    progress: 0,
+    chunks: 4,
+  },
+  {
+    id: 'ch2-forests',
+    title: 'Forests — Our Lifeline',
+    subject: 'Science',
+    class: 'Class 7',
+    board: 'NCERT',
+    estimatedTime: { adhd: '10 min', asd: '14 min', dyslexia: '18 min' },
+    progress: 100,
+    chunks: 3,
+  },
+  {
+    id: 'ch1-ancient',
+    title: 'Tracing Changes Through 1000 Years',
+    subject: 'History',
+    class: 'Class 7',
+    board: 'NCERT',
+    estimatedTime: { adhd: '15 min', asd: '18 min', dyslexia: '22 min' },
+    progress: 30,
+    chunks: 5,
+  },
+];
+
+export const adhdChunks = [
+  {
+    id: 1,
+    title: "What is Digestion? 🍕",
+    content: "When you eat a pizza, your body can't use it directly. It needs to break it into tiny pieces small enough to enter your blood. That process is called DIGESTION. Think of it like a food factory inside you!",
+    keyTerms: ['DIGESTION', 'blood', 'factory'],
+    visual: '🏭',
+    quickCheck: {
+      question: "What does digestion do to food?",
+      options: ["Makes it bigger", "Breaks it into tiny pieces", "Freezes it"],
+      correct: 1,
+    },
+    xpReward: 10,
+    estimatedMinutes: 2,
+  },
+  {
+    id: 2,
+    title: "The Journey Starts — Your Mouth 👄",
+    content: "The journey begins the moment food enters your mouth. Your teeth crush food while saliva mixes in. Saliva has special chemicals (enzymes) that start breaking down starch instantly. Chewing is step 1 of digestion!",
+    keyTerms: ['saliva', 'enzymes', 'starch'],
+    visual: '😁',
+    quickCheck: {
+      question: "What chemical in saliva breaks down starch?",
+      options: ["Water", "Enzymes", "Glucose"],
+      correct: 1,
+    },
+    xpReward: 10,
+    estimatedMinutes: 2,
+  },
+  {
+    id: 3,
+    title: "The Food Slide — Oesophagus 🎢",
+    content: "After swallowing, food travels down a tube called the oesophagus — like a water slide straight to your stomach. Muscles squeeze in waves (peristalsis) to push food down. This works even if you're upside down!",
+    keyTerms: ['oesophagus', 'peristalsis'],
+    visual: '🎢',
+    quickCheck: {
+      question: "What pushes food down the oesophagus?",
+      options: ["Gravity", "Muscle waves (peristalsis)", "Water"],
+      correct: 1,
+    },
+    xpReward: 15,
+    estimatedMinutes: 2,
+  },
+];
+
+export const asdChunks = [
+  {
+    id: 1,
+    title: "What is Digestion",
+    content: "Digestion is what your body does to food after you eat it. Your body cannot use food directly. It must break food into very small pieces. These small pieces go into your blood. Then your body uses them for energy.",
+    visual: { type: 'icon', emoji: '🔬', label: 'A process of breaking things down' },
+    nextPreview: "Next, we will learn about what happens in your mouth.",
+    confirmQuestion: "Digestion breaks food into small pieces. True or false?",
+    correct: 0,
+    options: ["True", "False"],
+  },
+  {
+    id: 2,
+    title: "The Mouth",
+    content: "When you eat, food goes into your mouth. Your teeth make food into smaller pieces. Your mouth also makes a liquid called saliva. Saliva mixes with food. Saliva has enzymes. Enzymes start to break down some of the food.",
+    visual: { type: 'icon', emoji: '🦷', label: 'Teeth and saliva in the mouth' },
+    nextPreview: "Next, we will learn about the oesophagus, which is a tube in your body.",
+    confirmQuestion: "What does saliva do?",
+    correct: 1,
+    options: ["It makes food hard", "Saliva mixes with food and starts to break it down", "It removes water"],
+  },
+  {
+    id: 3,
+    title: "The Oesophagus",
+    content: "The oesophagus is a tube. It connects your mouth to your stomach. Muscles in the oesophagus squeeze the food downward. This squeezing motion is called peristalsis.",
+    visual: { type: 'icon', emoji: '🧬', label: 'A tube for food' },
+    nextPreview: "Next, we will learn about the stomach.",
+    confirmQuestion: "What is the squeezing motion called?",
+    correct: 2,
+    options: ["Chewing", "Digestion", "Peristalsis"],
+  },
+];
+
+export const dyslexiaChunks = [
+  {
+    id: 1,
+    title: "What is Digestion",
+    content: "Digestion is the process where your body breaks down the food you eat. Food must be broken into very small parts so it can get into your blood and give you energy.",
+    keyTerms: ['Digestion', 'blood', 'energy'],
+  },
+  {
+    id: 2,
+    title: "The Mouth",
+    content: "Digestion starts in your mouth. Your teeth chew the food. Saliva mixes in and has enzymes that start breaking down starch.",
+    keyTerms: ['mouth', 'Saliva', 'enzymes', 'starch'],
+  },
+  {
+    id: 3,
+    title: "The Oesophagus",
+    content: "The oesophagus is the tube running from your mouth to your stomach. Muscles squeeze the food down in waves called peristalsis.",
+    keyTerms: ['oesophagus', 'stomach', 'peristalsis'],
+  },
+];
