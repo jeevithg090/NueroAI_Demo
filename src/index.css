@@ -1,39 +1,157 @@
 @import 'tailwindcss';
 
+/*
+ * Design tokens
+ * -------------
+ * Every colour in the UI comes from these semantic tokens, so the light and dark
+ * themes stay in sync. Each text/background pair used in the app meets WCAG AA
+ * (4.5:1 for body text) in both themes.
+ *
+ *   canvas / surface / card / raised   page → panel → card → control backgrounds
+ *   line / line-strong                 borders and dividers
+ *   fg / muted / subtle                primary, secondary and tertiary text
+ *   accent                             brand indigo for text, icons and focus rings
+ *   accent-solid                       brand indigo for filled buttons (white text)
+ *   <engine>                           engine colour for text, icons and borders
+ *   <engine>-solid / <engine>-ink      filled engine button and the text on it
+ *   <engine>-soft / <engine>-line      tinted background and border for engine chips
+ */
+:root,
+:root[data-theme='dark'] {
+  color-scheme: dark;
+
+  --nl-canvas: #0d0f1a;
+  --nl-surface: #141628;
+  --nl-card: #1c1f35;
+  --nl-raised: #2a2d45;
+  --nl-line: #2a2d45;
+  --nl-line-strong: #4f547a;
+  --nl-fg: #f0f2ff;
+  --nl-muted: #9ba1d0;
+  --nl-subtle: #8a90bf;
+
+  --nl-accent: #a5b4fc;
+  --nl-accent-solid: #5458e0;
+  --nl-accent-solid-hover: #4447c9;
+
+  --nl-adhd: #f59e0b;
+  --nl-adhd-soft: #2d2010;
+  --nl-adhd-line: #78450a;
+  --nl-asd: #60a5fa;
+  --nl-asd-soft: #0d1e35;
+  --nl-asd-line: #1e4a7a;
+  --nl-dys: #34d399;
+  --nl-dys-soft: #0a2419;
+  --nl-dys-deep: #05130d;
+  --nl-dys-line: #0f5a37;
+
+  --nl-danger: #f87171;
+  --nl-danger-soft: #3f1616;
+  --nl-success: #34d399;
+  --nl-success-soft: #064e3b;
+
+  --nl-hero-glow-1: #1a1060;
+  --nl-hero-glow-2: #0a2040;
+  --nl-shadow: 0 10px 30px -12px rgb(0 0 0 / 0.6);
+}
+
+:root[data-theme='light'] {
+  color-scheme: light;
+
+  --nl-canvas: #f6f7fb;
+  --nl-surface: #eceef7;
+  --nl-card: #ffffff;
+  --nl-raised: #e4e7f3;
+  --nl-line: #d8dcec;
+  --nl-line-strong: #9aa1c4;
+  --nl-fg: #14162b;
+  --nl-muted: #4a5078;
+  --nl-subtle: #5d638a;
+
+  --nl-accent: #4f46e5;
+  --nl-accent-solid: #4f46e5;
+  --nl-accent-solid-hover: #4338ca;
+
+  --nl-adhd: #a14a04;
+  --nl-adhd-soft: #fdf0d5;
+  --nl-adhd-line: #f2c46d;
+  --nl-asd: #1d4ed8;
+  --nl-asd-soft: #dfeafe;
+  --nl-asd-line: #93c5fd;
+  --nl-dys: #036b4d;
+  --nl-dys-soft: #d8f5e8;
+  --nl-dys-deep: #ecfbf3;
+  --nl-dys-line: #7fdcb5;
+
+  --nl-danger: #b91c1c;
+  --nl-danger-soft: #fde4e4;
+  --nl-success: #036b4d;
+  --nl-success-soft: #d8f5e8;
+
+  --nl-hero-glow-1: #dcd9ff;
+  --nl-hero-glow-2: #d6ecff;
+  --nl-shadow: 0 10px 30px -14px rgb(20 22 43 / 0.25);
+}
+
+@theme inline {
+  --color-canvas: var(--nl-canvas);
+  --color-surface: var(--nl-surface);
+  --color-card: var(--nl-card);
+  --color-raised: var(--nl-raised);
+  --color-line: var(--nl-line);
+  --color-line-strong: var(--nl-line-strong);
+  --color-fg: var(--nl-fg);
+  --color-muted: var(--nl-muted);
+  --color-subtle: var(--nl-subtle);
+
+  --color-accent: var(--nl-accent);
+  --color-accent-solid: var(--nl-accent-solid);
+  --color-accent-solid-hover: var(--nl-accent-solid-hover);
+
+  --color-adhd: var(--nl-adhd);
+  --color-adhd-solid: #f59e0b;
+  --color-adhd-ink: #2d2010;
+  --color-adhd-soft: var(--nl-adhd-soft);
+  --color-adhd-line: var(--nl-adhd-line);
+
+  --color-asd: var(--nl-asd);
+  --color-asd-solid: #60a5fa;
+  --color-asd-ink: #0d1e35;
+  --color-asd-soft: var(--nl-asd-soft);
+  --color-asd-line: var(--nl-asd-line);
+
+  --color-dys: var(--nl-dys);
+  --color-dys-solid: #34d399;
+  --color-dys-ink: #0a2419;
+  --color-dys-soft: var(--nl-dys-soft);
+  --color-dys-deep: var(--nl-dys-deep);
+  --color-dys-line: var(--nl-dys-line);
+
+  --color-danger: var(--nl-danger);
+  --color-danger-soft: var(--nl-danger-soft);
+  --color-success: var(--nl-success);
+  --color-success-soft: var(--nl-success-soft);
+
+  --shadow-card: var(--nl-shadow);
+}
+
 @theme {
-  --color-bg-primary: #0d0f1a;
-  --color-bg-secondary: #141628;
-  --color-bg-card: #1c1f35;
-  --color-border: #2a2d45;
-  --color-text-primary: #f0f2ff;
-  --color-text-secondary: #8b91c7;
-  --color-text-tertiary: #4f547a;
-
-  --color-adhd-primary: #f59e0b;
-  --color-adhd-soft: #2d2010;
-  --color-adhd-border: #78450a;
-
-  --color-asd-primary: #60a5fa;
-  --color-asd-soft: #0d1e35;
-  --color-asd-border: #1e4a7a;
-
-  --color-dys-primary: #34d399;
-  --color-dys-soft: #0a2419;
-  --color-dys-border: #0f5a37;
-
-  --color-accent: #818cf8;
-  --color-accent-soft: #1a1d3a;
-
   --font-sans: 'DM Sans', ui-sans-serif, system-ui, sans-serif;
   --font-display: 'Syne', ui-sans-serif, system-ui, sans-serif;
-  --font-mono: 'JetBrains Mono', monospace;
+  --font-mono: 'JetBrains Mono', ui-monospace, monospace;
   --font-dyslexic: 'OpenDyslexic', sans-serif;
 }
 
 @layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+  }
+
   body {
-    @apply bg-[var(--color-bg-primary)] text-[var(--color-text-primary)] font-sans antialiased;
-    color-scheme: dark;
+    @apply bg-canvas text-fg font-sans antialiased;
+    transition:
+      background-color 200ms ease,
+      color 200ms ease;
   }
 
   button:not(:disabled),
@@ -42,8 +160,54 @@
   }
 
   :focus-visible {
-    outline: 2px solid var(--color-accent);
+    outline: 2px solid var(--nl-accent);
     outline-offset: 2px;
+  }
+
+  main:focus {
+    outline: none;
+  }
+
+  ::selection {
+    background: color-mix(in oklab, var(--nl-accent) 35%, transparent);
+  }
+}
+
+@layer components {
+  /* Buttons: one shape, three emphasis levels, two sizes. */
+  .btn {
+    @apply inline-flex min-h-11 items-center justify-center gap-2 rounded-full px-6 py-2.5 font-semibold whitespace-nowrap transition-colors duration-150 select-none disabled:cursor-not-allowed disabled:opacity-60;
+  }
+  .btn-lg {
+    @apply min-h-12 px-8 py-3.5 text-base;
+  }
+  .btn-primary {
+    @apply bg-accent-solid text-white hover:bg-accent-solid-hover disabled:hover:bg-accent-solid;
+  }
+  .btn-secondary {
+    @apply border border-line bg-card text-fg hover:border-line-strong hover:bg-raised;
+  }
+  .btn-ghost {
+    @apply text-muted hover:bg-raised hover:text-fg;
+  }
+  .btn-inverse {
+    @apply bg-fg text-canvas hover:opacity-90;
+  }
+  /* Square icon-only button with a 44px touch target. */
+  .icon-btn {
+    @apply inline-flex size-11 shrink-0 items-center justify-center rounded-full text-current transition-colors hover:bg-fg/10;
+  }
+
+  .card {
+    @apply rounded-2xl border border-line bg-card;
+  }
+
+  .field {
+    @apply w-full rounded-xl border border-line bg-card px-4 py-3 text-fg transition-colors outline-none hover:border-line-strong focus:border-accent focus-visible:outline-2 focus-visible:outline-accent;
+  }
+
+  .eyebrow {
+    @apply text-xs font-semibold tracking-wider uppercase;
   }
 }
 
