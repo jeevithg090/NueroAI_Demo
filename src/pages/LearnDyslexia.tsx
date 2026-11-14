@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { dyslexiaChunks } from '../data/chapters';
+import { ThemeToggle } from '../components/ui/ThemeToggle';
 import { ModalitySwitch } from '../components/learning/ModalitySwitch';
 import { isSpeechSupported, speakWithHighlight, VoiceAgent } from '../utils/tts';
 import { addSyllableDots } from '../utils/syllables';
@@ -92,8 +93,8 @@ export default function LearnDyslexia({ chapter }: { chapter: Chapter }) {
     const className = clsx(
       'transition-colors duration-150 inline-block mr-[0.2em] mb-[0.2em] rounded px-1 -ml-1',
       highlightIndex === i
-        ? 'bg-[#34D399] text-[#0A2419]'
-        : isTerm && 'bg-[#0A2419] border-b-2 border-[#34D399] text-[#34D399]',
+        ? 'bg-dys-solid text-dys-ink'
+        : isTerm && 'bg-dys-soft border-b-2 border-dys text-dys',
     );
 
     if (isTerm && speechSupported) {
@@ -117,19 +118,19 @@ export default function LearnDyslexia({ chapter }: { chapter: Chapter }) {
   };
 
   return (
-    <div className="min-h-screen bg-[#0D0F1A]">
+    <div className="min-h-screen bg-canvas">
       {/* Top Bar */}
-      <header className="fixed top-0 left-0 right-0 h-20 bg-[#0A2419] border-b border-[#0F5A37] flex items-center justify-between px-4 sm:px-6 z-40">
-        <div className="flex items-center gap-4">
+      <header className="fixed top-0 left-0 right-0 h-20 bg-dys-soft border-b border-dys-line flex items-center justify-between px-4 sm:px-6 z-40">
+        <div className="flex items-center gap-1 sm:gap-4">
           <button
             type="button"
             onClick={() => navigate('/student')}
             aria-label="Back to dashboard"
-            className="p-2 hover:bg-white/10 rounded-full"
+            className="icon-btn -ml-2"
           >
             <ArrowLeft size={24} aria-hidden="true" />
           </button>
-          <span className="font-bold text-[#34D399] text-lg">
+          <span className="font-bold text-dys text-lg">
             <span className="sm:hidden">
               {chunkIndex + 1}/{dyslexiaChunks.length}
             </span>
@@ -138,9 +139,9 @@ export default function LearnDyslexia({ chapter }: { chapter: Chapter }) {
             </span>
           </span>
         </div>
-        <div className="flex items-center gap-2 sm:gap-6">
+        <div className="flex items-center gap-1.5 sm:gap-4">
           <div
-            className="flex items-center gap-1 sm:gap-2 bg-[#05130D] p-1.5 rounded-lg border border-[#0F5A37]"
+            className="flex items-center gap-1 sm:gap-2 bg-dys-deep p-1.5 rounded-lg border border-dys-line"
             role="group"
             aria-label="Text size"
           >
@@ -152,9 +153,9 @@ export default function LearnDyslexia({ chapter }: { chapter: Chapter }) {
                 aria-label={size.name}
                 aria-pressed={fontSize === size.value}
                 className={clsx(
-                  'px-2 sm:px-3 py-1 hover:bg-[#34D399]/20 rounded font-bold text-[#34D399]',
+                  'px-2 sm:px-3 py-1 hover:bg-dys-solid/20 rounded font-bold text-dys',
                   size.buttonClass,
-                  fontSize === size.value && 'bg-[#34D399]/20',
+                  fontSize === size.value && 'bg-dys-solid/20',
                 )}
               >
                 {size.label}
@@ -166,8 +167,8 @@ export default function LearnDyslexia({ chapter }: { chapter: Chapter }) {
             onClick={() => setIsDyslexicFont((prev) => !prev)}
             aria-pressed={isDyslexicFont}
             className={clsx(
-              'px-2 sm:px-4 py-2 rounded font-bold border transition-colors border-[#0F5A37]',
-              isDyslexicFont ? 'bg-[#34D399] text-[#0A2419]' : 'bg-[#05130D] text-[#34D399]',
+              'px-2 sm:px-4 py-2 rounded font-bold border transition-colors border-dys-line',
+              isDyslexicFont ? 'bg-dys-solid text-dys-ink' : 'bg-dys-deep text-dys',
             )}
           >
             <span className="sm:hidden" aria-hidden="true">
@@ -175,14 +176,15 @@ export default function LearnDyslexia({ chapter }: { chapter: Chapter }) {
             </span>
             <span className="sr-only sm:not-sr-only">OpenDyslexic</span>
           </button>
+          <ThemeToggle className="text-dys" />
         </div>
       </header>
 
       <main className="pt-28 sm:pt-32 pb-40 px-4 sm:px-6 max-w-4xl mx-auto flex flex-col items-center">
         {/* Voice Agent UI */}
-        <div className="w-full bg-[#1C1F35] border border-[#2A2D45] rounded-3xl p-6 mb-12 flex flex-col sm:flex-row items-center gap-6 shadow-lg">
+        <div className="w-full bg-card border border-line rounded-3xl p-6 mb-12 flex flex-col sm:flex-row items-center gap-6 shadow-lg">
           <div
-            className="w-20 h-20 bg-[#0A2419] border-2 border-[#34D399] rounded-full flex items-center justify-center shrink-0"
+            className="w-20 h-20 bg-dys-soft border-2 border-dys rounded-full flex items-center justify-center shrink-0"
             aria-hidden="true"
           >
             <span className="text-3xl">🎧</span>
@@ -190,7 +192,7 @@ export default function LearnDyslexia({ chapter }: { chapter: Chapter }) {
           <div className="flex-1 text-center sm:text-left">
             <h2 className="font-sans font-bold text-lg mb-1">
               Sam{' '}
-              <span className="text-[#8B91C7] text-sm font-normal">
+              <span className="text-muted text-sm font-normal">
                 {!speechSupported
                   ? 'needs a browser with speech support'
                   : isPlaying
@@ -203,7 +205,7 @@ export default function LearnDyslexia({ chapter }: { chapter: Chapter }) {
               {[...Array(5)].map((_, i) => (
                 <div
                   key={i}
-                  className="w-1.5 bg-[#34D399] rounded-full"
+                  className="w-1.5 bg-dys-solid rounded-full"
                   style={{
                     height: isPlaying ? '100%' : '20%',
                     transition: 'height 0.2s',
@@ -218,7 +220,7 @@ export default function LearnDyslexia({ chapter }: { chapter: Chapter }) {
               type="button"
               onClick={handlePlayToggle}
               disabled={!speechSupported}
-              className="bg-[#34D399] text-[#0A2419] p-4 rounded-full hover:scale-105 transition-transform flex items-center gap-2 font-bold font-sans disabled:opacity-50 disabled:hover:scale-100 disabled:cursor-not-allowed"
+              className="bg-dys-solid text-dys-ink p-4 rounded-full hover:scale-105 transition-transform flex items-center gap-2 font-bold font-sans disabled:opacity-50 disabled:hover:scale-100 disabled:cursor-not-allowed"
             >
               {isPlaying ? (
                 <>
@@ -235,16 +237,16 @@ export default function LearnDyslexia({ chapter }: { chapter: Chapter }) {
 
         {/* Content Area */}
         <div className="w-full max-w-3xl">
-          <p className="text-sm font-sans text-[#8B91C7] mb-2">{chapter.title}</p>
-          <h1 className="text-3xl sm:text-4xl font-bold mb-10 text-[#F0F2FF] border-b border-[#2A2D45] pb-6">
+          <p className="text-sm font-sans text-muted mb-2">{chapter.title}</p>
+          <h1 className="text-3xl sm:text-4xl font-bold mb-10 text-fg border-b border-line pb-6">
             {chunk.title}
           </h1>
 
-          <p className={clsx('text-[#F0F2FF]', fontSize)}>{words.map(renderWord)}</p>
+          <p className={clsx('text-fg', fontSize)}>{words.map(renderWord)}</p>
         </div>
 
-        <div className="mt-16 bg-[#05130D] border border-[#0F5A37] p-6 rounded-2xl w-full max-w-3xl flex justify-between items-center gap-4">
-          <span id="syllable-label" className="font-sans font-medium text-[#34D399]">
+        <div className="mt-16 bg-dys-deep border border-dys-line p-6 rounded-2xl w-full max-w-3xl flex justify-between items-center gap-4">
+          <span id="syllable-label" className="font-sans font-medium text-dys">
             Break words into syllables?
           </span>
           <button
@@ -255,9 +257,7 @@ export default function LearnDyslexia({ chapter }: { chapter: Chapter }) {
             onClick={() => setSyllableMode((prev) => !prev)}
             className={clsx(
               'px-6 py-2 rounded-full font-bold transition-colors font-sans',
-              syllableMode
-                ? 'bg-[#34D399] text-[#0A2419]'
-                : 'bg-[#0A2419] text-[#34D399] border-2 border-[#34D399]',
+              syllableMode ? 'bg-dys-solid text-dys-ink' : 'bg-dys-soft text-dys border-2 border-dys',
             )}
           >
             {syllableMode ? 'ON' : 'OFF'}
@@ -266,18 +266,18 @@ export default function LearnDyslexia({ chapter }: { chapter: Chapter }) {
       </main>
 
       {/* Bottom Bar */}
-      <div className="fixed bottom-0 left-0 right-0 p-4 sm:p-6 bg-[#0A2419] border-t border-[#0F5A37] flex justify-between items-center gap-3 z-30 font-sans">
+      <div className="fixed bottom-0 left-0 right-0 p-4 sm:p-6 bg-dys-soft border-t border-dys-line flex justify-between items-center gap-3 z-30 font-sans">
         <button
           type="button"
           onClick={() => setIsConfused(true)}
-          className="text-[#34D399] hover:bg-[#34D399]/10 px-4 sm:px-6 py-3 rounded-full font-bold transition-colors"
+          className="text-dys hover:bg-dys-solid/10 px-4 sm:px-6 py-3 rounded-full font-bold transition-colors"
         >
           <span aria-hidden="true">😕</span> I&apos;m confused
         </button>
         <button
           type="button"
           onClick={handleNext}
-          className="bg-[#34D399] text-[#0A2419] px-6 sm:px-8 py-3 rounded-full font-extrabold text-lg flex items-center gap-2 hover:scale-105 transition-transform"
+          className="bg-dys-solid text-dys-ink px-6 sm:px-8 py-3 rounded-full font-extrabold text-lg flex items-center gap-2 hover:scale-105 transition-transform"
         >
           {isLast ? 'Finish →' : 'Got it! Next →'}
         </button>

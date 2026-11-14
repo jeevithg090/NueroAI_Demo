@@ -24,10 +24,10 @@ export const schools: School[] = [
 ];
 
 export const cognitiveDistribution = [
-  { mode: 'Standard', count: 430, color: 'bg-white/20' },
-  { mode: 'ADHD', count: 340, color: 'bg-[#F59E0B]' },
-  { mode: 'Dyslexia', count: 290, color: 'bg-[#34D399]' },
-  { mode: 'ASD', count: 180, color: 'bg-[#60A5FA]' },
+  { mode: 'Standard', count: 430, color: 'bg-muted/60' },
+  { mode: 'ADHD', count: 340, color: 'bg-adhd-solid' },
+  { mode: 'Dyslexia', count: 290, color: 'bg-dys-solid' },
+  { mode: 'ASD', count: 180, color: 'bg-asd-solid' },
 ];
 
 export const engagementMetrics = {

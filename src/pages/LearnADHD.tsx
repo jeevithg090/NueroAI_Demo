@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import confetti from 'canvas-confetti';
 import { adhdChunks } from '../data/chapters';
+import { ThemeToggle } from '../components/ui/ThemeToggle';
 import { ModalitySwitch } from '../components/learning/ModalitySwitch';
 import { ArrowLeft, Target, Timer } from 'lucide-react';
 import clsx from 'clsx';
@@ -77,59 +78,57 @@ export default function LearnADHD({ chapter }: { chapter: Chapter }) {
 
   return (
     <div
-      className={clsx(
-        'min-h-screen bg-[#0D0F1A] transition-all duration-700',
-        isFocusMode && 'overflow-hidden',
-      )}
+      className={clsx('min-h-screen bg-canvas transition-all duration-700', isFocusMode && 'overflow-hidden')}
     >
       {/* Top Bar */}
       <motion.header
         aria-hidden={isFocusMode}
         inert={isFocusMode}
         animate={{ opacity: isFocusMode ? 0 : 1, y: isFocusMode ? -50 : 0 }}
-        className="fixed top-0 left-0 right-0 h-16 bg-[#1C1F35] border-b border-[#2A2D45] flex items-center justify-between px-6 z-40"
+        className="fixed top-0 left-0 right-0 h-16 bg-card border-b border-line flex items-center justify-between gap-2 px-3 sm:px-6 z-40"
       >
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-2 sm:gap-4 min-w-0">
           <button
             type="button"
             onClick={() => navigate('/student')}
             aria-label="Back to dashboard"
-            className="p-2 hover:bg-white/10 rounded-full"
+            className="icon-btn -ml-2"
           >
             <ArrowLeft size={20} aria-hidden="true" />
           </button>
-          <span className="font-medium text-[#8B91C7] truncate">
+          <span className="font-medium text-muted truncate">
             <span className="hidden lg:inline">{chapter.title} · </span>Chunk {chunkIndex + 1}/
             {adhdChunks.length}
           </span>
         </div>
-        <div className="flex items-center gap-3 sm:gap-6 font-mono font-bold">
-          <span className="text-[#8B91C7] font-medium hidden md:inline">
+        <div className="flex items-center gap-2 sm:gap-5 font-mono font-bold shrink-0">
+          <span className="text-muted font-medium hidden md:inline">
             <Timer size={16} className="inline mr-1" aria-hidden="true" /> {formatClock(remaining)}{' '}
             <span className="text-xs">remaining</span>
           </span>
-          <span className="text-[#F59E0B]" aria-live="polite">
+          <span className="text-adhd" aria-live="polite">
             ⭐ {xp} XP
           </span>
-          <span className="text-orange-500 hidden sm:inline">🔥 {streak} Streak</span>
+          <span className="text-adhd hidden sm:inline">🔥 {streak} Streak</span>
           <button
             type="button"
             onClick={() => setIsFocusMode(true)}
-            className="flex items-center gap-2 bg-[#2D2010] text-[#F59E0B] px-3 sm:px-4 py-1.5 rounded-full border border-[#78450A] hover:bg-[#F59E0B] hover:text-[#2D2010] transition-colors"
+            className="flex items-center gap-2 min-h-10 bg-adhd-soft text-adhd px-3 sm:px-4 py-1.5 rounded-full border border-adhd-line hover:bg-adhd-solid hover:text-adhd-ink transition-colors"
           >
             <span className="hidden sm:inline">Focus Mode</span> <Target size={16} aria-hidden="true" />
             <span className="sr-only sm:hidden">Focus mode</span>
           </button>
+          <ThemeToggle className="font-sans" />
         </div>
       </motion.header>
 
       {/* Progress */}
       <motion.div
         animate={{ opacity: isFocusMode ? 0 : 1 }}
-        className="fixed top-16 left-0 right-0 h-1 bg-[#2A2D45] z-40"
+        className="fixed top-16 left-0 right-0 h-1 bg-raised z-40"
       >
         <motion.div
-          className="h-full bg-[#F59E0B]"
+          className="h-full bg-adhd-solid"
           initial={{ width: 0 }}
           animate={{ width: `${(chunkIndex / adhdChunks.length) * 100}%` }}
           transition={{ duration: 0.5 }}
@@ -145,11 +144,11 @@ export default function LearnADHD({ chapter }: { chapter: Chapter }) {
         <motion.div
           animate={{ y: [0, -8, 0] }}
           transition={{ repeat: Infinity, duration: 2, ease: 'easeInOut' }}
-          className="bg-[#2D2010] border border-[#78450A] text-[#F59E0B] px-4 py-3 rounded-2xl rounded-tr-sm mb-4 shadow-xl max-w-[200px] text-sm font-bold leading-tight"
+          className="bg-adhd-soft border border-adhd-line text-adhd px-4 py-3 rounded-2xl rounded-tr-sm mb-4 shadow-xl max-w-[200px] text-sm font-bold leading-tight"
         >
           You're doing great! {adhdChunks.length - chunkIndex} more to go! 🚀
         </motion.div>
-        <div className="w-16 h-16 bg-[#F59E0B] rounded-3xl flex items-center justify-center text-3xl shadow-[0_0_20px_rgba(245,158,11,0.3)]">
+        <div className="w-16 h-16 bg-adhd-solid rounded-3xl flex items-center justify-center text-3xl shadow-[0_0_20px_rgba(245,158,11,0.3)]">
           ⚡
         </div>
       </motion.div>
@@ -170,25 +169,23 @@ export default function LearnADHD({ chapter }: { chapter: Chapter }) {
             transition={{ type: 'spring', stiffness: 300, damping: 30 }}
           >
             {isFocusMode && (
-              <div className="absolute top-4 right-4 text-[#8B91C7] flex items-center gap-2 font-mono text-sm">
+              <div className="absolute top-4 right-4 text-muted flex items-center gap-2 font-mono text-sm">
                 <Timer size={14} aria-hidden="true" /> {formatClock(remaining)}
               </div>
             )}
             <div className="flex items-center gap-4 mb-6">
-              <span className="bg-[#1C1F35] text-[#8B91C7] font-bold px-3 py-1 rounded-full text-sm">
-                #{chunk.id}
-              </span>
-              <span className="text-[#8B91C7] text-sm font-medium">⏱ ~{chunk.estimatedMinutes} min read</span>
+              <span className="bg-card text-muted font-bold px-3 py-1 rounded-full text-sm">#{chunk.id}</span>
+              <span className="text-muted text-sm font-medium">⏱ ~{chunk.estimatedMinutes} min read</span>
             </div>
 
             <h1 className="font-display text-3xl sm:text-4xl md:text-5xl font-bold mb-8 leading-tight">
               {chunk.title}
             </h1>
 
-            <p className="text-xl md:text-2xl leading-relaxed text-[#F0F2FF] mb-12">
+            <p className="text-xl md:text-2xl leading-relaxed text-fg mb-12">
               {splitByKeyTerms(chunk.content, chunk.keyTerms).map((part, i) =>
                 part.isTerm ? (
-                  <strong key={i} className="text-[#F59E0B] font-bold bg-[#2D2010] px-2 rounded">
+                  <strong key={i} className="text-adhd font-bold bg-adhd-soft px-2 rounded">
                     {part.text}
                   </strong>
                 ) : (
@@ -198,20 +195,18 @@ export default function LearnADHD({ chapter }: { chapter: Chapter }) {
             </p>
 
             {!isFocusMode && (
-              <div className="bg-[#1C1F35] rounded-3xl p-6 border border-[#2A2D45] mt-12">
-                <h3 className="font-bold mb-6 text-[#8B91C7] text-sm uppercase tracking-wider">
-                  Quick Check
-                </h3>
+              <div className="bg-card rounded-3xl p-6 border border-line mt-12">
+                <h3 className="font-bold mb-6 text-muted text-sm uppercase tracking-wider">Quick Check</h3>
                 <p className="text-xl font-medium mb-6">{chunk.quickCheck.question}</p>
                 <div className="grid gap-3">
                   {chunk.quickCheck.options.map((opt, i) => {
                     const isCorrect = i === chunk.quickCheck.correct;
                     const isSelected = selectedOption === i;
-                    let style = 'bg-[#2A2D45] border-[#4F547A] hover:border-[#8B91C7]';
+                    let style = 'bg-raised border-line-strong hover:border-line-strong';
                     if (selectedOption !== null) {
-                      if (isCorrect) style = 'bg-[#064E3B] border-[#10B981] text-[#10B981]';
-                      else if (isSelected) style = 'bg-[#7F1D1D] border-[#EF4444] text-[#EF4444]';
-                      else style = 'opacity-50 pointer-events-none bg-[#2A2D45] border-[#4F547A]';
+                      if (isCorrect) style = 'bg-success-soft border-success text-success';
+                      else if (isSelected) style = 'bg-danger-soft border-danger text-danger';
+                      else style = 'opacity-50 pointer-events-none bg-raised border-line-strong';
                     }
 
                     return (
@@ -235,11 +230,11 @@ export default function LearnADHD({ chapter }: { chapter: Chapter }) {
 
       {/* Confused / Next Bottom Bar */}
       {!isFocusMode && (
-        <div className="fixed bottom-0 left-0 right-0 p-4 sm:p-6 bg-gradient-to-t from-[#0D0F1A] to-transparent pointer-events-none flex justify-between items-end gap-3 max-w-5xl mx-auto z-30">
+        <div className="fixed bottom-0 left-0 right-0 p-4 sm:p-6 bg-gradient-to-t from-canvas to-transparent pointer-events-none flex justify-between items-end gap-3 max-w-5xl mx-auto z-30">
           <button
             type="button"
             onClick={() => setIsConfused(true)}
-            className="pointer-events-auto bg-[#1C1F35] border border-[#2A2D45] text-[#8B91C7] hover:text-white px-4 sm:px-6 py-3 rounded-full font-semibold transition-colors flex gap-2 items-center"
+            className="pointer-events-auto bg-card border border-line text-muted hover:text-fg px-4 sm:px-6 py-3 rounded-full font-semibold transition-colors flex gap-2 items-center"
           >
             😕 I'm confused
           </button>
@@ -251,7 +246,7 @@ export default function LearnADHD({ chapter }: { chapter: Chapter }) {
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: 20 }}
                 onClick={handleNext}
-                className="pointer-events-auto bg-[#F59E0B] text-black px-6 sm:px-8 py-4 rounded-full font-bold text-lg shadow-[0_0_20px_rgba(245,158,11,0.4)] hover:scale-105 transition-transform"
+                className="pointer-events-auto bg-adhd-solid text-adhd-ink px-6 sm:px-8 py-4 rounded-full font-bold text-lg shadow-[0_0_20px_rgba(245,158,11,0.4)] hover:scale-105 transition-transform"
               >
                 {chunkIndex < adhdChunks.length - 1 ? 'Got it! Next →' : 'Finish chapter 🎉'}
               </motion.button>
@@ -266,9 +261,9 @@ export default function LearnADHD({ chapter }: { chapter: Chapter }) {
           <button
             type="button"
             onClick={() => setIsFocusMode(false)}
-            className="bg-white/10 hover:bg-white/20 text-white px-6 py-2 rounded-full backdrop-blur-md text-sm font-medium transition-colors"
+            className="bg-fg/10 hover:bg-fg/20 text-fg min-h-11 px-6 py-2 rounded-full backdrop-blur-md text-sm font-medium transition-colors"
           >
-            Exit Focus Mode <span className="text-white/50">(Esc)</span>
+            Exit Focus Mode <span className="text-muted">(Esc)</span>
           </button>
         </div>
       )}
