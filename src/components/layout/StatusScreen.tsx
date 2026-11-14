@@ -1,11 +1,17 @@
 import { Link } from 'react-router-dom';
 import type { ReactNode } from 'react';
+import type { LucideIcon } from 'lucide-react';
+import { AppHeader } from './AppHeader';
 
 interface StatusScreenProps {
   title: string;
   children?: ReactNode;
   actionLabel?: string;
   actionTo?: string;
+  /** Optional icon shown above the title. */
+  icon?: LucideIcon;
+  /** Small label above the title, e.g. "404". */
+  eyebrow?: string;
 }
 
 /** Full-page message used for empty, not-found and unavailable states. */
@@ -14,17 +20,25 @@ export function StatusScreen({
   children,
   actionLabel = 'Back to dashboard',
   actionTo = '/student',
+  icon: Icon,
+  eyebrow,
 }: StatusScreenProps) {
   return (
-    <main className="flex min-h-screen flex-col items-center justify-center p-6 text-center">
-      <h1 className="font-display mb-4 text-3xl font-bold">{title}</h1>
-      {children && <div className="mb-8 max-w-md text-lg text-[#8B91C7]">{children}</div>}
-      <Link
-        to={actionTo}
-        className="rounded-full bg-[#818CF8] px-6 py-3 font-semibold text-white transition-colors hover:bg-[#6366f1]"
-      >
-        {actionLabel}
-      </Link>
-    </main>
+    <>
+      <AppHeader />
+      <main className="mx-auto flex min-h-[calc(100vh-4rem)] max-w-xl flex-col items-center justify-center px-6 py-16 text-center">
+        {Icon && (
+          <span className="mb-6 flex size-16 items-center justify-center rounded-2xl border border-line bg-card text-accent">
+            <Icon size={30} aria-hidden="true" />
+          </span>
+        )}
+        {eyebrow && <p className="eyebrow mb-3 font-mono text-accent">{eyebrow}</p>}
+        <h1 className="font-display mb-4 text-3xl font-bold text-balance sm:text-4xl">{title}</h1>
+        {children && <div className="mb-8 max-w-md text-lg text-pretty text-muted">{children}</div>}
+        <Link to={actionTo} className="btn btn-primary btn-lg">
+          {actionLabel}
+        </Link>
+      </main>
+    </>
   );
 }

@@ -6,3 +6,6 @@ afterEach(() => {
   cleanup();
   window.localStorage.clear();
 });
+
+// jsdom does not implement scrolling; ScrollToTop calls it on every route change.
+window.scrollTo = (() => {}) as typeof window.scrollTo;

@@ -22,7 +22,7 @@ export function RoleSwitcher() {
   return (
     <nav
       aria-label="Switch demo role"
-      className="fixed right-4 bottom-4 z-50 flex rounded-full border border-[#2A2D45] bg-[#141628] p-1 shadow-lg sm:right-6 sm:bottom-6"
+      className="fixed right-4 bottom-4 z-50 flex rounded-full border border-line bg-surface p-1 shadow-lg sm:right-6 sm:bottom-6"
     >
       {roles.map((role) => (
         <NavLink
@@ -31,7 +31,7 @@ export function RoleSwitcher() {
           className={({ isActive }) =>
             clsx(
               'flex items-center gap-2 rounded-full px-3 py-2 text-sm font-medium transition-colors sm:px-4',
-              isActive ? 'bg-[#818CF8] text-white' : 'text-[#8B91C7] hover:text-white',
+              isActive ? 'bg-accent-solid text-white' : 'text-muted hover:text-fg',
             )
           }
         >

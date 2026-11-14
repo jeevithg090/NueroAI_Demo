@@ -4,6 +4,15 @@ import { renderApp } from './test/renderWithRouter';
 import { saveProfile } from './utils/profileUtils';
 import { demoProfiles } from './data/profiles';
 
+describe('accessibility helpers', () => {
+  it('offers a skip link that moves focus to the main content', async () => {
+    const { user } = renderApp('/does-not-exist');
+    const skip = screen.getByRole('link', { name: /skip to main content/i });
+    await user.click(skip);
+    expect(document.activeElement?.tagName).toBe('MAIN');
+  });
+});
+
 describe('routing', () => {
   it('renders the landing page without the role switcher', () => {
     renderApp('/');
