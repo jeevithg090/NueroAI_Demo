@@ -227,8 +227,8 @@ export default function TeacherPortal() {
                 </div>
                 <h2 className="font-display text-3xl font-bold">Chapter 4: Digestive System</h2>
               </div>
-              <div className="flex flex-wrap gap-4 mt-4 sm:mt-0">
-                <button type="button" onClick={reset} className="btn btn-ghost">
+              <div className="flex flex-wrap gap-3 mt-4 sm:mt-0">
+                <button type="button" onClick={reset} className="btn btn-secondary">
                   Upload another
                 </button>
                 <button type="button" onClick={reset} className="btn btn-primary">
