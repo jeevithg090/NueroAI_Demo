@@ -1,36 +1,45 @@
-/**
- * @license
- * SPDX-License-Identifier: Apache-2.0
- */
-
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { MotionConfig } from 'framer-motion';
+import { lazy, Suspense } from 'react';
 import Landing from './pages/Landing';
-import Onboarding from './pages/Onboarding';
-import StudentDashboard from './pages/StudentDashboard';
-import LearnADHD from './pages/LearnADHD';
-import LearnASD from './pages/LearnASD';
-import LearnDyslexia from './pages/LearnDyslexia';
-import TeacherPortal from './pages/TeacherPortal';
-import AdminDashboard from './pages/AdminDashboard';
+import NotFound from './pages/NotFound';
 import { RoleSwitcher } from './components/layout/RoleSwitcher';
+import { PageLoader } from './components/layout/PageLoader';
+import { ErrorBoundary } from './components/layout/ErrorBoundary';
+
+const Onboarding = lazy(() => import('./pages/Onboarding'));
+const StudentDashboard = lazy(() => import('./pages/StudentDashboard'));
+const LessonRoute = lazy(() => import('./pages/LessonRoute'));
+const TeacherPortal = lazy(() => import('./pages/TeacherPortal'));
+const AdminDashboard = lazy(() => import('./pages/AdminDashboard'));
+
+export function AppRoutes() {
+  return (
+    <div className="min-h-screen bg-[var(--color-bg-primary)] text-[var(--color-text-primary)]">
+      <Suspense fallback={<PageLoader />}>
+        <Routes>
+          <Route path="/" element={<Landing />} />
+          <Route path="/onboarding" element={<Onboarding />} />
+          <Route path="/student" element={<StudentDashboard />} />
+          <Route path="/learn/:mode/:id" element={<LessonRoute />} />
+          <Route path="/teacher" element={<TeacherPortal />} />
+          <Route path="/admin" element={<AdminDashboard />} />
+          <Route path="*" element={<NotFound />} />
+        </Routes>
+      </Suspense>
+      <RoleSwitcher />
+    </div>
+  );
+}
 
 export default function App() {
   return (
-    <BrowserRouter>
-      <div className="min-h-screen bg-[var(--color-bg-primary)] text-[var(--color-text-primary)]">
-        <Routes>
-          <Route path="/"                  element={<Landing />} />
-          <Route path="/onboarding"        element={<Onboarding />} />
-          <Route path="/student"           element={<StudentDashboard />} />
-          <Route path="/learn/adhd/:id"    element={<LearnADHD />} />
-          <Route path="/learn/asd/:id"     element={<LearnASD />} />
-          <Route path="/learn/dyslexia/:id" element={<LearnDyslexia />} />
-          <Route path="/teacher"           element={<TeacherPortal />} />
-          <Route path="/admin"             element={<AdminDashboard />} />
-          <Route path="*"                  element={<Navigate to="/" />} />
-        </Routes>
-        <RoleSwitcher />
-      </div>
-    </BrowserRouter>
+    <MotionConfig reducedMotion="user">
+      <ErrorBoundary>
+        <BrowserRouter>
+          <AppRoutes />
+        </BrowserRouter>
+      </ErrorBoundary>
+    </MotionConfig>
   );
 }

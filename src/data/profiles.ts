@@ -1,4 +1,6 @@
-export const demoProfiles = {
+import type { LearningMode, StudentProfile } from '../types';
+
+export const demoProfiles: Record<LearningMode, StudentProfile> = {
   adhd: {
     name: 'Arjun',
     age: 11,

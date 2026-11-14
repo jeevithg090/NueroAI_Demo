@@ -1,58 +1,76 @@
-@import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&family=JetBrains+Mono:wght@400;500&display=swap');
-@import "tailwindcss";
+@import 'tailwindcss';
 
 @theme {
-  --color-bg-primary: #0D0F1A;
+  --color-bg-primary: #0d0f1a;
   --color-bg-secondary: #141628;
-  --color-bg-card: #1C1F35;
-  --color-border: #2A2D45;
-  --color-text-primary: #F0F2FF;
-  --color-text-secondary: #8B91C7;
-  --color-text-tertiary: #4F547A;
+  --color-bg-card: #1c1f35;
+  --color-border: #2a2d45;
+  --color-text-primary: #f0f2ff;
+  --color-text-secondary: #8b91c7;
+  --color-text-tertiary: #4f547a;
 
-  --color-adhd-primary: #F59E0B;
-  --color-adhd-soft: #2D2010;
-  --color-adhd-border: #78450A;
+  --color-adhd-primary: #f59e0b;
+  --color-adhd-soft: #2d2010;
+  --color-adhd-border: #78450a;
 
-  --color-asd-primary: #60A5FA;
-  --color-asd-soft: #0D1E35;
-  --color-asd-border: #1E4A7A;
+  --color-asd-primary: #60a5fa;
+  --color-asd-soft: #0d1e35;
+  --color-asd-border: #1e4a7a;
 
-  --color-dys-primary: #34D399;
-  --color-dys-soft: #0A2419;
-  --color-dys-border: #0F5A37;
+  --color-dys-primary: #34d399;
+  --color-dys-soft: #0a2419;
+  --color-dys-border: #0f5a37;
 
-  --color-accent: #818CF8;
-  --color-accent-soft: #1A1D3A;
+  --color-accent: #818cf8;
+  --color-accent-soft: #1a1d3a;
 
-  --font-sans: "DM Sans", ui-sans-serif, system-ui, sans-serif;
-  --font-display: "Syne", ui-sans-serif, system-ui, sans-serif;
-  --font-mono: "JetBrains Mono", monospace;
-  --font-dyslexic: "OpenDyslexic", sans-serif;
+  --font-sans: 'DM Sans', ui-sans-serif, system-ui, sans-serif;
+  --font-display: 'Syne', ui-sans-serif, system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+  --font-dyslexic: 'OpenDyslexic', sans-serif;
 }
 
 @layer base {
   body {
     @apply bg-[var(--color-bg-primary)] text-[var(--color-text-primary)] font-sans antialiased;
+    color-scheme: dark;
+  }
+
+  button:not(:disabled),
+  [role='button']:not(:disabled) {
+    cursor: pointer;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 2px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
   }
 }
 
 .dyslexia-mode {
-  font-family: 'OpenDyslexic', sans-serif !important;
+  font-family: var(--font-dyslexic) !important;
   letter-spacing: 0.05em;
   line-height: 1.9;
   word-spacing: 0.15em;
 }
 
-@font-face {
-    font-family: 'OpenDyslexic';
-    src: url('https://cdn.jsdelivr.net/npm/open-dyslexic@1.0.3/dist/OpenDyslexic-Regular.woff') format('woff'),
-         url('https://cdn.jsdelivr.net/npm/open-dyslexic@1.0.3/dist/OpenDyslexic-Regular.ttf') format('truetype');
-    font-weight: normal;
-    font-style: normal;
-}
-
 @keyframes waveform {
-  0%, 100% { height: 20%; }
-  50% { height: 100%; }
+  0%,
+  100% {
+    height: 20%;
+  }
+  50% {
+    height: 100%;
+  }
 }
