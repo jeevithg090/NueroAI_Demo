@@ -1,6 +1,6 @@
 import { useEffect, useState, type CSSProperties } from 'react';
 import { motion } from 'framer-motion';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import {
   Sparkles,
   BrainCircuit,
@@ -9,17 +9,23 @@ import {
   AudioLines,
   GraduationCap,
   Building2,
+  ClipboardList,
+  Wand2,
+  BookOpenCheck,
+  ArrowRight,
   type LucideIcon,
 } from 'lucide-react';
 import { saveProfile } from '../utils/profileUtils';
 import { demoProfiles } from '../data/profiles';
 import { useDocumentTitle } from '../hooks/useDocumentTitle';
+import { ThemeToggle } from '../components/ui/ThemeToggle';
 import type { LearningMode } from '../types';
 
 interface EngineCard {
   tag: string;
   mode: LearningMode;
   icon: LucideIcon;
+  /** CSS colour token for the engine (theme-aware). */
   color: string;
   title: string;
   desc: string;
@@ -30,7 +36,7 @@ const ENGINE_CARDS: EngineCard[] = [
     tag: 'ADHD',
     mode: 'adhd',
     icon: Activity,
-    color: '#F59E0B',
+    color: 'var(--color-adhd)',
     title: 'Action-Driven',
     desc: 'Gamified chunking, frequent rewards, and interactive tests.',
   },
@@ -38,7 +44,7 @@ const ENGINE_CARDS: EngineCard[] = [
     tag: 'ASD',
     mode: 'asd',
     icon: Eye,
-    color: '#60A5FA',
+    color: 'var(--color-asd)',
     title: 'Predictable & Calm',
     desc: 'Zero surprises, literal language, and constant structure.',
   },
@@ -46,9 +52,27 @@ const ENGINE_CARDS: EngineCard[] = [
     tag: 'Dyslexia',
     mode: 'dyslexia',
     icon: AudioLines,
-    color: '#34D399',
+    color: 'var(--color-dys)',
     title: 'Audio-First',
     desc: 'Syllabic timing, OpenDyslexic font, and high contrast.',
+  },
+];
+
+const STEPS: { icon: LucideIcon; title: string; desc: string }[] = [
+  {
+    icon: ClipboardList,
+    title: 'Answer five questions',
+    desc: 'A short onboarding quiz builds a learning profile. No diagnosis or personal data needed.',
+  },
+  {
+    icon: Wand2,
+    title: 'Get matched to an engine',
+    desc: 'The profile picks the ADHD, ASD or dyslexia engine. Retake the quiz any time.',
+  },
+  {
+    icon: BookOpenCheck,
+    title: 'Learn the same chapter',
+    desc: 'Every engine teaches the same NCERT content, presented the way that works for you.',
   },
 ];
 
@@ -88,34 +112,38 @@ export default function Landing() {
   };
 
   return (
-    <div className="min-h-screen relative overflow-hidden bg-[radial-gradient(ellipse_at_20%_50%,_#1a1060_0%,_transparent_60%),radial-gradient(ellipse_at_80%_20%,_#0a2040_0%,_transparent_60%)]">
-      {/* Navbar */}
-      <nav className="flex items-center justify-between p-6 max-w-7xl mx-auto backdrop-blur-sm border-b border-white/5">
-        <div className="flex items-center gap-2">
-          <BrainCircuit className="text-[#818CF8]" size={28} aria-hidden="true" />
-          <span className="font-display font-semibold text-xl tracking-tight">NeuroLearn AI</span>
-        </div>
-        <button
-          type="button"
-          onClick={() => navigate('/onboarding')}
-          className="bg-white text-black px-5 py-2.5 rounded-full font-medium hover:bg-white/90 transition-colors"
+    <div className="relative min-h-screen overflow-hidden bg-[radial-gradient(ellipse_at_20%_40%,_var(--nl-hero-glow-1)_0%,_transparent_55%),radial-gradient(ellipse_at_80%_10%,_var(--nl-hero-glow-2)_0%,_transparent_55%)]">
+      <header className="border-b border-line/60 backdrop-blur-sm">
+        <nav
+          aria-label="Main"
+          className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-4 sm:px-6 sm:py-5"
         >
-          Try Demo
-        </button>
-      </nav>
+          <Link to="/" className="-ml-2 flex min-h-11 items-center gap-2 rounded-full px-2">
+            <BrainCircuit className="text-accent" size={28} aria-hidden="true" />
+            <span className="font-display text-lg font-semibold tracking-tight whitespace-nowrap sm:text-xl">
+              NeuroLearn AI
+            </span>
+          </Link>
+          <div className="flex items-center gap-2">
+            <ThemeToggle />
+            <Link to="/onboarding" className="btn btn-inverse">
+              Try Demo
+            </Link>
+          </div>
+        </nav>
+      </header>
 
-      {/* Hero */}
-      <main className="max-w-7xl mx-auto px-6 pt-16 sm:pt-24 pb-12 flex flex-col items-center text-center">
-        <motion.div
+      <main className="mx-auto flex max-w-7xl flex-col items-center px-4 pt-14 pb-16 text-center sm:px-6 sm:pt-24">
+        <motion.p
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
-          className="bg-white/10 text-white/90 text-sm font-medium px-4 py-1.5 rounded-full mb-8 inline-flex items-center gap-2 border border-white/20"
+          className="mb-8 inline-flex items-center gap-2 rounded-full border border-line bg-card/70 px-4 py-1.5 text-sm font-medium text-muted"
         >
-          <Sparkles size={16} className="text-[#818CF8]" aria-hidden="true" />
+          <Sparkles size={16} className="text-accent" aria-hidden="true" />
           Track 3 · Education · PS1
-        </motion.div>
+        </motion.p>
 
-        <h1 className="font-display text-4xl sm:text-5xl md:text-7xl font-bold tracking-tight mb-6 leading-[1.1]">
+        <h1 className="font-display mb-6 text-4xl leading-[1.1] font-bold tracking-tight text-balance sm:text-5xl md:text-7xl">
           {HEADLINE.map((word, i) => (
             <motion.span
               key={word}
@@ -124,7 +152,13 @@ export default function Landing() {
               animate={{ y: 0, opacity: 1 }}
               transition={{ delay: i * 0.15, duration: 0.6, ease: 'easeOut' }}
             >
-              {word}
+              {word === 'Zero re-onboarding.' ? (
+                <>
+                  Zero <span className="whitespace-nowrap">re-onboarding.</span>
+                </>
+              ) : (
+                word
+              )}
             </motion.span>
           ))}
         </h1>
@@ -133,111 +167,144 @@ export default function Landing() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.6 }}
-          className="text-[#8B91C7] text-xl max-w-2xl mx-auto mb-12"
+          className="mx-auto mb-10 max-w-2xl text-lg text-pretty text-muted sm:mb-12 sm:text-xl"
         >
-          NCERT curriculum in <span className="text-white">→</span> personalised learning out. Fully offline.
+          NCERT curriculum in <span className="text-fg">→</span> personalised learning out. Fully offline.
         </motion.p>
 
         <motion.div
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.7 }}
-          className="flex flex-wrap gap-4 justify-center"
+          className="flex w-full flex-col justify-center gap-3 sm:w-auto sm:flex-row sm:flex-wrap sm:gap-4"
         >
-          <button
-            type="button"
-            onClick={() => navigate('/onboarding')}
-            className="bg-[#818CF8] hover:bg-[#6366f1] text-white px-8 py-3.5 rounded-full font-semibold transition-colors shadow-[0_0_20px_rgba(129,140,248,0.3)]"
+          <Link
+            to="/onboarding"
+            className="btn btn-primary btn-lg shadow-[0_0_24px_color-mix(in_oklab,var(--nl-accent-solid)_35%,transparent)]"
           >
-            Start as Student
-          </button>
-          <button
-            type="button"
-            onClick={() => navigate('/teacher')}
-            className="bg-[#1C1F35] border border-[#2A2D45] hover:bg-[#2A2D45] text-white px-8 py-3.5 rounded-full font-semibold transition-colors flex items-center gap-2"
-          >
+            Start as Student <ArrowRight size={18} aria-hidden="true" />
+          </Link>
+          <Link to="/teacher" className="btn btn-secondary btn-lg">
             <GraduationCap size={18} aria-hidden="true" />
             Teacher Portal
-          </button>
-          <button
-            type="button"
-            onClick={() => navigate('/admin')}
-            className="bg-[#1C1F35] border border-[#2A2D45] hover:bg-[#2A2D45] text-white px-8 py-3.5 rounded-full font-semibold transition-colors flex items-center gap-2"
-          >
+          </Link>
+          <Link to="/admin" className="btn btn-secondary btn-lg">
             <Building2 size={18} aria-hidden="true" />
             Admin
-          </button>
+          </Link>
         </motion.div>
 
-        {/* Condition Cards */}
-        <motion.div
-          className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-24 text-left w-full max-w-5xl"
-          initial="initial"
-          animate="animate"
-          variants={{
-            animate: { transition: { staggerChildren: 0.1, delayChildren: 0.8 } },
-          }}
-        >
-          {ENGINE_CARDS.map((c) => (
-            <motion.button
-              type="button"
-              key={c.tag}
-              variants={{
-                initial: { opacity: 0, y: 20 },
-                animate: { opacity: 1, y: 0, transition: { duration: 0.5 } },
-              }}
-              whileHover={{ scale: 1.02 }}
-              className="bg-[#1C1F35] border border-[#2A2D45] rounded-2xl p-6 relative overflow-hidden group cursor-pointer transition-shadow text-left focus-visible:outline-2 focus-visible:outline-offset-2"
-              style={{ '--hover-color': c.color, outlineColor: c.color } as CSSProperties}
-              onClick={() => handleStartDemo(c.mode)}
-              aria-label={`Demo the ${c.tag} engine as a student`}
-            >
-              <div
-                className="absolute left-0 top-0 bottom-0 w-1 transition-all group-hover:w-2"
-                style={{ backgroundColor: c.color }}
-                aria-hidden="true"
-              />
-              <c.icon color={c.color} size={32} className="mb-4" aria-hidden="true" />
-              <p className="text-xs uppercase tracking-wider font-semibold mb-1" style={{ color: c.color }}>
-                {c.title}
-              </p>
-              <h3 className="font-display text-xl font-bold mb-2">{c.tag} Engine</h3>
-              <p className="text-[#8B91C7] text-sm leading-relaxed mb-4">{c.desc}</p>
-              <div
-                className="text-sm font-medium flex items-center gap-1 group-hover:underline"
-                style={{ color: c.color }}
+        {/* Engine cards */}
+        <section aria-labelledby="engines-heading" className="mt-20 w-full max-w-5xl sm:mt-24">
+          <h2 id="engines-heading" className="sr-only">
+            Try an adaptive engine
+          </h2>
+          <p className="mb-6 text-sm text-muted">Skip the quiz and jump straight into an engine:</p>
+          <motion.ul
+            className="grid w-full grid-cols-1 gap-4 text-left sm:gap-6 md:grid-cols-3"
+            initial="initial"
+            animate="animate"
+            variants={{
+              animate: { transition: { staggerChildren: 0.1, delayChildren: 0.8 } },
+            }}
+          >
+            {ENGINE_CARDS.map((c) => (
+              <motion.li
+                key={c.tag}
+                variants={{
+                  initial: { opacity: 0, y: 20 },
+                  animate: { opacity: 1, y: 0, transition: { duration: 0.5 } },
+                }}
               >
-                Demo as Student →
-              </div>
-            </motion.button>
-          ))}
-        </motion.div>
+                <button
+                  type="button"
+                  className="card group relative h-full w-full overflow-hidden p-6 text-left shadow-card transition-[transform,border-color] duration-200 hover:-translate-y-1 hover:border-line-strong"
+                  style={{ outlineColor: c.color } as CSSProperties}
+                  onClick={() => handleStartDemo(c.mode)}
+                  aria-label={`Demo the ${c.tag} engine as a student`}
+                >
+                  <span
+                    className="absolute top-0 bottom-0 left-0 w-1 transition-all group-hover:w-1.5"
+                    style={{ backgroundColor: c.color }}
+                    aria-hidden="true"
+                  />
+                  <c.icon color={c.color} size={32} className="mb-4" aria-hidden="true" />
+                  <span className="eyebrow mb-1 block" style={{ color: c.color }}>
+                    {c.title}
+                  </span>
+                  <span className="font-display mb-2 block text-xl font-bold">{c.tag} Engine</span>
+                  <span className="mb-4 block text-sm leading-relaxed text-muted">{c.desc}</span>
+                  <span
+                    className="flex items-center gap-1 text-sm font-semibold group-hover:underline"
+                    style={{ color: c.color }}
+                  >
+                    Demo as Student <ArrowRight size={14} aria-hidden="true" />
+                  </span>
+                </button>
+              </motion.li>
+            ))}
+          </motion.ul>
+        </section>
 
-        {/* Stats Strip */}
-        <motion.div
+        {/* How it works */}
+        <section aria-labelledby="how-heading" className="mt-20 w-full max-w-5xl text-left sm:mt-24">
+          <h2 id="how-heading" className="font-display mb-8 text-center text-2xl font-bold sm:text-3xl">
+            How the student journey works
+          </h2>
+          <ol className="grid grid-cols-1 gap-4 sm:gap-6 md:grid-cols-3">
+            {STEPS.map((step, i) => (
+              <li key={step.title} className="card flex gap-4 p-6">
+                <span className="flex size-11 shrink-0 items-center justify-center rounded-xl bg-accent-solid/15 text-accent">
+                  <step.icon size={22} aria-hidden="true" />
+                </span>
+                <div>
+                  <p className="mb-1 font-mono text-xs text-subtle">Step {i + 1}</p>
+                  <h3 className="mb-1 font-semibold">{step.title}</h3>
+                  <p className="text-sm leading-relaxed text-muted">{step.desc}</p>
+                </div>
+              </li>
+            ))}
+          </ol>
+        </section>
+
+        {/* Stats strip */}
+        <motion.section
+          aria-label="Product goals"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 1.2, duration: 1 }}
-          className="mt-20 border-t border-white/10 pt-10 flex flex-wrap justify-center gap-8 sm:gap-12 text-[#8B91C7]"
+          className="mt-20 w-full max-w-4xl border-t border-line pt-10"
         >
-          <div className="flex flex-col">
-            <span className="font-mono text-3xl text-white font-bold">{stats.students}M+</span>
-            <span className="text-sm">Students Supported</span>
-          </div>
-          <div className="flex flex-col">
-            <span className="font-mono text-3xl text-white font-bold">&lt;{stats.tts}ms</span>
-            <span className="text-sm">TTS Latency</span>
-          </div>
-          <div className="flex flex-col">
-            <span className="font-mono text-3xl text-white font-bold">{stats.langs}+</span>
-            <span className="text-sm">Languages via Bhashini</span>
-          </div>
-          <div className="flex flex-col">
-            <span className="font-mono text-3xl text-white font-bold">₹0</span>
-            <span className="text-sm">Inference Cost</span>
-          </div>
-        </motion.div>
+          <dl className="grid grid-cols-2 gap-8 text-muted sm:grid-cols-4">
+            <div className="flex flex-col-reverse">
+              <dt className="text-sm">Students Supported</dt>
+              <dd className="font-mono text-2xl font-bold text-fg sm:text-3xl">{stats.students}M+</dd>
+            </div>
+            <div className="flex flex-col-reverse">
+              <dt className="text-sm">TTS Latency</dt>
+              <dd className="font-mono text-2xl font-bold text-fg sm:text-3xl">&lt;{stats.tts}ms</dd>
+            </div>
+            <div className="flex flex-col-reverse">
+              <dt className="text-sm">Languages via Bhashini</dt>
+              <dd className="font-mono text-2xl font-bold text-fg sm:text-3xl">{stats.langs}+</dd>
+            </div>
+            <div className="flex flex-col-reverse">
+              <dt className="text-sm">Inference Cost</dt>
+              <dd className="font-mono text-2xl font-bold text-fg sm:text-3xl">₹0</dd>
+            </div>
+          </dl>
+          <p className="mt-6 text-xs text-subtle">
+            Figures are design goals for the full product, not measurements from this prototype.
+          </p>
+        </motion.section>
       </main>
+
+      <footer className="border-t border-line/60">
+        <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-2 px-4 py-6 text-sm text-subtle sm:flex-row sm:px-6">
+          <p>NeuroLearn AI · interactive prototype</p>
+          <p>Sample content: NCERT Class 7 Science, Chapter “The Human Digestive System”</p>
+        </div>
+      </footer>
     </div>
   );
 }

@@ -30,6 +30,14 @@ describe('TeacherPortal', () => {
     await user.click(screen.getByRole('tab', { name: /asd output/i }));
     expect(screen.getByRole('tab', { name: /asd output/i })).toHaveAttribute('aria-selected', 'true');
     expect(screen.getByText(/literal language/i)).toBeInTheDocument();
+
+    // Arrow keys move between tabs and keep focus on the selected one.
+    await user.keyboard('{ArrowRight}');
+    const dyslexiaTab = screen.getByRole('tab', { name: /dyslexia output/i });
+    expect(dyslexiaTab).toHaveAttribute('aria-selected', 'true');
+    expect(dyslexiaTab).toHaveFocus();
+    await user.keyboard('{Home}');
+    expect(screen.getByRole('tab', { name: /adhd output/i })).toHaveAttribute('aria-selected', 'true');
   });
 
   it('restarts the step counter when a second file is processed', async () => {

@@ -5,6 +5,7 @@ import { ArrowLeft } from 'lucide-react';
 import { questions, type OnboardingOption } from '../data/onboardingQuestions';
 import { generateProfile, saveProfile } from '../utils/profileUtils';
 import { useDocumentTitle } from '../hooks/useDocumentTitle';
+import { ThemeToggle } from '../components/ui/ThemeToggle';
 import type { OnboardingAnswers, StudentProfile } from '../types';
 
 /** Pause after a selection so the student sees their choice highlighted. */
@@ -77,7 +78,7 @@ export default function Onboarding() {
 
   if (profile) {
     return (
-      <main className="min-h-screen flex flex-col items-center justify-center bg-[var(--color-bg-primary)] p-6">
+      <main className="min-h-screen flex flex-col items-center justify-center bg-canvas p-6">
         <motion.div
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
@@ -90,14 +91,14 @@ export default function Onboarding() {
             {vector.map((value, i) => (
               <motion.div
                 key={i}
-                className="w-16 bg-[#818CF8] rounded-t-lg"
+                className="w-16 bg-accent-solid rounded-t-lg"
                 initial={{ height: 0 }}
                 animate={{ height: value * 120 + 10 }}
                 transition={{ type: 'spring', damping: 20 }}
               />
             ))}
           </div>
-          <p className="text-[#8B91C7] font-mono">[ {vector.map((v) => v.toFixed(2)).join(', ')} ]</p>
+          <p className="text-muted font-mono">[ {vector.map((v) => v.toFixed(2)).join(', ')} ]</p>
         </motion.div>
       </main>
     );
@@ -107,9 +108,9 @@ export default function Onboarding() {
   const progress = (currentQ / questions.length) * 100;
 
   return (
-    <main className="min-h-screen bg-[var(--color-bg-primary)] flex flex-col relative overflow-hidden">
+    <main className="min-h-screen bg-canvas flex flex-col relative overflow-hidden">
       <div
-        className="h-1 bg-[#2A2D45] w-full fixed top-0"
+        className="h-1 bg-raised w-full fixed top-0"
         role="progressbar"
         aria-label="Onboarding progress"
         aria-valuemin={0}
@@ -117,23 +118,23 @@ export default function Onboarding() {
         aria-valuenow={currentQ}
       >
         <motion.div
-          className="h-full bg-[#818CF8]"
+          className="h-full bg-accent-solid"
           initial={{ width: 0 }}
           animate={{ width: `${progress}%` }}
         />
       </div>
 
       <div className="flex items-center justify-between px-6 pt-6 max-w-4xl mx-auto w-full">
-        <button
-          type="button"
-          onClick={handleBack}
-          className="flex items-center gap-2 text-[#8B91C7] hover:text-white rounded-full px-3 py-2 -ml-3"
-        >
+        <button type="button" onClick={handleBack} className="btn btn-ghost -ml-3 px-3">
           <ArrowLeft size={18} aria-hidden="true" /> Back
         </button>
-        <span className="text-sm font-mono text-[#8B91C7]">
-          {currentQ + 1} / {questions.length}
-        </span>
+        <div className="flex items-center gap-2">
+          <span className="text-sm font-mono text-muted">
+            <span className="sr-only">Question </span>
+            {currentQ + 1} / {questions.length}
+          </span>
+          <ThemeToggle />
+        </div>
       </div>
 
       <div className="flex-1 flex flex-col items-center justify-center p-6 w-full max-w-4xl mx-auto">
@@ -171,10 +172,10 @@ export default function Onboarding() {
                     key={opt.label}
                     onClick={() => handleSelect(currentQ, opt)}
                     aria-pressed={isSelected}
-                    className={`p-5 sm:p-6 md:p-8 rounded-2xl border text-left text-lg font-medium transition-all ${
+                    className={`p-5 sm:p-6 md:p-8 rounded-2xl border-2 text-left text-lg font-medium transition-[border-color,background-color,transform] duration-150 active:scale-[0.99] ${
                       isSelected
-                        ? 'border-[#818CF8] bg-[#818CF8]/10'
-                        : 'border-[#2A2D45] bg-[#1C1F35] hover:border-[#8B91C7]'
+                        ? 'border-accent bg-accent-solid/10'
+                        : 'border-line bg-card hover:border-line-strong'
                     }`}
                   >
                     {opt.label}

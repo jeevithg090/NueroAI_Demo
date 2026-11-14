@@ -1,6 +1,7 @@
 import { useCallback, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { asdChunks } from '../data/chapters';
+import { ThemeToggle } from '../components/ui/ThemeToggle';
 import { ModalitySwitch } from '../components/learning/ModalitySwitch';
 import { ArrowLeft, CheckCircle2, Circle } from 'lucide-react';
 import type { Chapter } from '../types';
@@ -28,26 +29,26 @@ export default function LearnASD({ chapter }: { chapter: Chapter }) {
   };
 
   return (
-    <div className="min-h-screen bg-[#0D0F1A]">
+    <div className="min-h-screen bg-canvas">
       {/* Top Bar - Never moves */}
-      <header className="fixed top-0 left-0 right-0 h-16 bg-[#141628] border-b border-[#2A2D45] flex items-center justify-between px-4 sm:px-6 z-40 gap-2">
+      <header className="fixed top-0 left-0 right-0 h-16 bg-surface border-b border-line flex items-center justify-between px-4 sm:px-6 z-40 gap-2">
         <div className="flex items-center gap-2 sm:gap-4 min-w-0">
           <button
             type="button"
             onClick={() => navigate('/student')}
             aria-label="Back to dashboard"
-            className="p-2 hover:bg-[#2A2D45] rounded"
+            className="icon-btn -ml-2"
           >
             <ArrowLeft size={20} aria-hidden="true" />
           </button>
-          <span className="font-medium text-[#F0F2FF] truncate">
+          <span className="font-medium text-fg truncate">
             <span className="hidden md:inline">{chapter.title} · </span>Section {chunkIndex + 1} of{' '}
             {asdChunks.length}
           </span>
         </div>
         <div className="flex items-center gap-2 sm:gap-4 shrink-0">
           {!isQuiet && (
-            <div className="hidden sm:flex items-center bg-[#0D1E35] border border-[#1E4A7A] px-3 py-1.5 rounded-md text-[#60A5FA] text-sm">
+            <div className="hidden sm:flex items-center bg-asd-soft border border-asd-line px-3 py-1.5 rounded-md text-asd text-sm">
               <span className="mr-2" aria-hidden="true">
                 🔵
               </span>{' '}
@@ -58,23 +59,24 @@ export default function LearnASD({ chapter }: { chapter: Chapter }) {
             type="button"
             onClick={() => setIsQuiet((prev) => !prev)}
             aria-pressed={isQuiet}
-            className={`px-3 py-1.5 text-sm rounded ${isQuiet ? 'bg-[#0D1E35] text-[#60A5FA]' : 'text-[#8B91C7] hover:text-white'}`}
+            className={`min-h-10 px-3 py-1.5 text-sm rounded ${isQuiet ? 'bg-asd-soft text-asd' : 'text-muted hover:text-fg'}`}
           >
             <span aria-hidden="true">🔇</span> Quiet mode
           </button>
+          <ThemeToggle />
         </div>
       </header>
 
       {/* Progress Bar - Simple */}
       <div
-        className="fixed top-16 left-0 right-0 h-2 bg-[#1C1F35] z-40"
+        className="fixed top-16 left-0 right-0 h-2 bg-card z-40"
         role="progressbar"
         aria-label="Lesson progress"
         aria-valuemin={0}
         aria-valuemax={asdChunks.length}
         aria-valuenow={chunkIndex}
       >
-        <div className="h-full bg-[#60A5FA]" style={{ width: `${(chunkIndex / asdChunks.length) * 100}%` }} />
+        <div className="h-full bg-asd-solid" style={{ width: `${(chunkIndex / asdChunks.length) * 100}%` }} />
       </div>
 
       <div className="pt-24 pb-32 px-4 sm:px-6 max-w-7xl mx-auto flex gap-10 h-full">
@@ -83,51 +85,51 @@ export default function LearnASD({ chapter }: { chapter: Chapter }) {
           className={`w-64 hidden ${isQuiet ? '' : 'lg:flex'} flex-col shrink-0`}
           aria-label="Learning companion"
         >
-          <div className="bg-[#141628] p-6 border border-[#2A2D45] rounded-xl flex flex-col items-center text-center sticky top-24">
+          <div className="bg-surface p-6 border border-line rounded-xl flex flex-col items-center text-center sticky top-24">
             <div
-              className="w-24 h-24 bg-gradient-to-b from-[#1E4A7A] to-[#0D1E35] rounded-full mb-6 border-4 border-[#60A5FA] flex items-center justify-center text-4xl"
+              className="w-24 h-24 bg-gradient-to-b from-asd-line to-asd-soft rounded-full mb-6 border-4 border-asd flex items-center justify-center text-4xl"
               aria-hidden="true"
             >
               🔵
             </div>
             <h2 className="font-bold text-lg mb-2">Nila</h2>
-            <p className="text-[#60A5FA] text-sm font-medium mb-4">
+            <p className="text-asd text-sm font-medium mb-4">
               Right now we are learning about:
               <br />
               {chunk.title.toLowerCase()}
             </p>
-            <div className="w-full h-px bg-[#2A2D45] mb-4" />
-            <p className="text-[#8B91C7] text-sm">{chunk.nextPreview}</p>
+            <div className="w-full h-px bg-raised mb-4" />
+            <p className="text-muted text-sm">{chunk.nextPreview}</p>
           </div>
         </aside>
 
         {/* Main Content Area */}
         <main className="flex-1 max-w-3xl">
-          <div className="bg-[#1C1F35] border border-[#2A2D45] rounded-xl p-6 sm:p-8 lg:p-12 mb-8">
-            <h1 className="font-display text-3xl font-semibold mb-8 text-[#F0F2FF]">{chunk.title}</h1>
-            <p className="text-xl leading-relaxed text-[#F0F2FF]">{chunk.content}</p>
+          <div className="bg-card border border-line rounded-xl p-6 sm:p-8 lg:p-12 mb-8">
+            <h1 className="font-display text-3xl font-semibold mb-8 text-fg">{chunk.title}</h1>
+            <p className="text-xl leading-relaxed text-fg">{chunk.content}</p>
 
             {/* Simple visual */}
-            <div className="mt-10 bg-[#141628] p-6 rounded-lg border border-[#2A2D45] flex items-center gap-6">
+            <div className="mt-10 bg-surface p-6 rounded-lg border border-line flex items-center gap-6">
               <span className="text-5xl" aria-hidden="true">
                 {chunk.visual.emoji}
               </span>
-              <span className="text-[#8B91C7] font-medium">{chunk.visual.label}</span>
+              <span className="text-muted font-medium">{chunk.visual.label}</span>
             </div>
           </div>
 
           {/* Check */}
-          <div className="bg-[#141628] border border-[#2A2D45] rounded-xl p-6 sm:p-8">
+          <div className="bg-surface border border-line rounded-xl p-6 sm:p-8">
             <h2 className="text-lg font-medium mb-6">{chunk.confirmQuestion}</h2>
             <div className="grid gap-3">
               {chunk.options.map((opt, i) => {
                 const isCorrect = i === chunk.correct;
                 const isSelected = selectedOption === i;
-                let style = 'bg-[#1C1F35] border-[#2A2D45]';
+                let style = 'bg-card border-line';
                 if (selectedOption !== null) {
-                  if (isCorrect) style = 'bg-[#0D1E35] border-[#60A5FA] text-[#60A5FA]';
-                  else if (isSelected) style = 'bg-[#3f1616] border-[#EF4444] text-[#EF4444]';
-                  else style = 'opacity-50 pointer-events-none bg-[#1C1F35] border-[#2A2D45]';
+                  if (isCorrect) style = 'bg-asd-soft border-asd text-asd';
+                  else if (isSelected) style = 'bg-danger-soft border-danger text-danger';
+                  else style = 'opacity-50 pointer-events-none bg-card border-line';
                 }
 
                 return (
@@ -150,8 +152,8 @@ export default function LearnASD({ chapter }: { chapter: Chapter }) {
 
         {/* Right Sidebar - Visual Schedule */}
         <aside className={`w-72 hidden ${isQuiet ? '' : 'xl:block'} shrink-0`} aria-label="Lesson schedule">
-          <div className="bg-[#141628] p-6 border border-[#2A2D45] rounded-xl sticky top-24">
-            <h2 className="font-bold text-[#8B91C7] mb-6 uppercase text-sm tracking-wider">Schedule</h2>
+          <div className="bg-surface p-6 border border-line rounded-xl sticky top-24">
+            <h2 className="font-bold text-muted mb-6 uppercase text-sm tracking-wider">Schedule</h2>
             <ul className="space-y-4">
               {asdChunks.map((c, i) => {
                 let status = 'upcoming';
@@ -165,19 +167,19 @@ export default function LearnASD({ chapter }: { chapter: Chapter }) {
                     aria-current={status === 'current' ? 'step' : undefined}
                   >
                     {status === 'done' && (
-                      <CheckCircle2 size={20} className="text-[#34D399] mt-0.5 shrink-0" aria-label="Done" />
+                      <CheckCircle2 size={20} className="text-dys mt-0.5 shrink-0" aria-label="Done" />
                     )}
                     {status === 'current' && (
-                      <span className="text-[#60A5FA] font-bold shrink-0 w-5" aria-hidden="true">
+                      <span className="text-asd font-bold shrink-0 w-5" aria-hidden="true">
                         →
                       </span>
                     )}
                     {status === 'upcoming' && (
-                      <Circle size={20} className="text-[#4F547A] mt-0.5 shrink-0" aria-hidden="true" />
+                      <Circle size={20} className="text-muted mt-0.5 shrink-0" aria-hidden="true" />
                     )}
 
                     <span
-                      className={`font-medium ${status === 'current' ? 'text-[#60A5FA]' : status === 'done' ? 'text-[#8B91C7]' : 'text-[#4F547A]'}`}
+                      className={`font-medium ${status === 'current' ? 'text-asd' : status === 'done' ? 'text-muted' : 'text-muted'}`}
                     >
                       {c.title}
                     </span>
@@ -189,11 +191,11 @@ export default function LearnASD({ chapter }: { chapter: Chapter }) {
         </aside>
       </div>
 
-      <div className="fixed bottom-0 left-0 right-0 bg-[#141628] border-t border-[#2A2D45] p-4 flex justify-between sm:justify-end items-center px-4 sm:px-12 z-40 gap-4">
+      <div className="fixed bottom-0 left-0 right-0 bg-surface border-t border-line p-4 flex justify-between sm:justify-end items-center px-4 sm:px-12 z-40 gap-4">
         <button
           type="button"
           onClick={() => setIsConfused(true)}
-          className="text-[#8B91C7] hover:text-white px-3 sm:px-6 py-2 rounded font-medium"
+          className="text-muted hover:text-fg px-3 sm:px-6 py-2 rounded font-medium"
         >
           😕 I don't understand
         </button>
@@ -201,7 +203,7 @@ export default function LearnASD({ chapter }: { chapter: Chapter }) {
           type="button"
           onClick={handleNext}
           disabled={selectedOption === null}
-          className={`px-5 sm:px-8 py-3 rounded font-bold transition-none ${selectedOption !== null ? 'bg-[#60A5FA] text-[#0D1F35] hover:bg-[#93C5FD]' : 'bg-[#2A2D45] text-[#8B91C7] cursor-not-allowed'}`}
+          className={`px-5 sm:px-8 py-3 rounded font-bold transition-none ${selectedOption !== null ? 'bg-asd-solid text-asd-ink hover:brightness-110' : 'bg-raised text-muted cursor-not-allowed'}`}
         >
           {isLast ? 'I understand. Finish →' : 'I understand. Next →'}
         </button>
