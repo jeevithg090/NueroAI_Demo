@@ -6,6 +6,8 @@ import NotFound from './pages/NotFound';
 import { RoleSwitcher } from './components/layout/RoleSwitcher';
 import { PageLoader } from './components/layout/PageLoader';
 import { ErrorBoundary } from './components/layout/ErrorBoundary';
+import { SkipLink } from './components/layout/SkipLink';
+import { ScrollToTop } from './components/layout/ScrollToTop';
 
 const Onboarding = lazy(() => import('./pages/Onboarding'));
 const StudentDashboard = lazy(() => import('./pages/StudentDashboard'));
@@ -15,7 +17,9 @@ const AdminDashboard = lazy(() => import('./pages/AdminDashboard'));
 
 export function AppRoutes() {
   return (
-    <div className="min-h-screen bg-[var(--color-bg-primary)] text-[var(--color-text-primary)]">
+    <div className="min-h-screen bg-canvas text-fg">
+      <ScrollToTop />
+      <SkipLink />
       <Suspense fallback={<PageLoader />}>
         <Routes>
           <Route path="/" element={<Landing />} />

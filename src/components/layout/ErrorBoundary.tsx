@@ -25,14 +25,10 @@ export class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundarySt
     return (
       <main role="alert" className="flex min-h-screen flex-col items-center justify-center p-6 text-center">
         <h1 className="font-display mb-4 text-3xl font-bold">Something went wrong</h1>
-        <p className="mb-8 max-w-md text-lg text-[#8B91C7]">
+        <p className="mb-8 max-w-md text-lg text-pretty text-muted">
           The page failed to load. Reloading usually fixes this.
         </p>
-        <button
-          type="button"
-          onClick={() => window.location.reload()}
-          className="rounded-full bg-[#818CF8] px-6 py-3 font-semibold text-white transition-colors hover:bg-[#6366f1]"
-        >
+        <button type="button" onClick={() => window.location.reload()} className="btn btn-primary btn-lg">
           Reload page
         </button>
       </main>

@@ -3,6 +3,7 @@ import { getChapter } from '../data/chapters';
 import { StatusScreen } from '../components/layout/StatusScreen';
 import { useDocumentTitle } from '../hooks/useDocumentTitle';
 import { isLearningMode } from '../types';
+import { BookX, Hourglass } from 'lucide-react';
 import LearnADHD from './LearnADHD';
 import LearnASD from './LearnASD';
 import LearnDyslexia from './LearnDyslexia';
@@ -15,7 +16,7 @@ export default function LessonRoute() {
 
   if (!isLearningMode(mode) || !chapter) {
     return (
-      <StatusScreen title="Lesson not found">
+      <StatusScreen title="Lesson not found" icon={BookX}>
         We couldn&apos;t find that lesson. It may have been moved, or the link is incorrect.
       </StatusScreen>
     );
@@ -23,9 +24,9 @@ export default function LessonRoute() {
 
   if (!chapter.hasDemoContent) {
     return (
-      <StatusScreen title={chapter.title}>
+      <StatusScreen title={chapter.title} eyebrow="Coming soon" icon={Hourglass}>
         Adapted content for this chapter isn&apos;t included in the demo yet. Try{' '}
-        <span className="text-white">The Human Digestive System</span> to see the adaptive engines in action.
+        <span className="text-fg">The Human Digestive System</span> to see the adaptive engines in action.
       </StatusScreen>
     );
   }
